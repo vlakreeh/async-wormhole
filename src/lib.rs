@@ -128,7 +128,7 @@ impl<'a, Stack: stack::Stack, Output, TLS, const TLS_COUNT: usize>
         F: FnOnce(AsyncYielder<Output>) -> Output + 'a,
     {
         let generator = Generator::new(stack, |yielder, waker| {
-            let async_yielder = AsyncYielder::new(yielder, waker);
+            let async_yielder = AsyncYielder::new(&*yielder, waker);
             yielder.suspend(Some(f(async_yielder)));
         });
 
